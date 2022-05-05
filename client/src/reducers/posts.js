@@ -1,19 +1,44 @@
-import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import {
+  FETCH_ALL,
+  CREATE,
+  UPDATE,
+  DELETE,
+  LIKE,
+  START_LOADING,
+} from "../constants/actionTypes";
 
-export default (posts = [], action) => {
+const initialStore = {
+  loading: false,
+  posts: [],
+};
+export default (store = initialStore, action) => {
   switch (action.type) {
+    case START_LOADING:
+      return { ...store, loading: true };
     case FETCH_ALL:
-      return action.payload;
+      return { loading: false, posts: action.payload };
     case LIKE:
-      return posts.map((post) => (post._id === action.payload._id ? action.payload : post));
+      return {
+        ...store,
+        posts: store.posts.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        ),
+      };
     case CREATE:
-      return [...posts, action.payload];
+      return { ...store, posts: [...store.posts, action.payload] };
     case UPDATE:
-      return posts.map((post) => (post._id === action.payload._id ? action.payload : post));
+      return {
+        ...store,
+        posts: store.posts.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        ),
+      };
     case DELETE:
-      return posts.filter((post) => post._id !== action.payload);
+      return {
+        ...store,
+        posts: store.posts.filter((post) => post._id !== action.payload),
+      };
     default:
-      return posts;
+      return { ...initialStore };
   }
 };
-

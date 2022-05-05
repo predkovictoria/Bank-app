@@ -44,8 +44,8 @@ export default function PostsFilter() {
   const [balanceRange, setBalanceRange] = useState([0, 0]);
   const [numCreditCards, setNumCreditCards] = useState(0);
 
-  const debauncedNumCreditcards = useDebounce(numCreditCards, 500);
-  const debauncedbalanceRange = useDebounce(balanceRange, 500);
+  const debouncedNumCreditcards = useDebounce(numCreditCards, 500);
+  const debouncedbalanceRange = useDebounce(balanceRange, 500);
 
   const handleCitiesChange = ({ target: { value } }) => {
     setCity(typeof value === "string" ? value.split(",") : value);
@@ -80,7 +80,7 @@ export default function PostsFilter() {
 
   useEffect(() => {
     applyFilters();
-  }, [debauncedNumCreditcards, debauncedbalanceRange, haveMortgage]);
+  }, [debouncedNumCreditcards, debouncedbalanceRange, haveMortgage]);
 
   useEffect(() => {
     if (maxBalance !== 0) setBalanceRange([0, maxBalance]);
